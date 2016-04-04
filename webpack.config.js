@@ -5,6 +5,8 @@ var HtmlWebpackPlugin  = require('html-webpack-plugin');
 
 module.exports = {
  entry : [
+   'webpack-dev-server/client?http://localhost:8080',
+   'webpack/hot/only-dev-server',
      './client/receipt_app.js'
  ],
  output: {
@@ -15,13 +17,14 @@ module.exports = {
      extensions: ['', '.js', '.jsx']
  },
  plugins: [
-        new webpack.optimize.OccurenceOrderPlugin(true),
-        new HtmlWebpackPlugin({ template: './client/index.html', inject: true })
+     new webpack.optimize.OccurenceOrderPlugin(true),
+     new HtmlWebpackPlugin({ template: './client/index.html', inject: true }),
+     new webpack.HotModuleReplacementPlugin()
  ],
  module: {
      loaders: [{
         test: /\.js?$/,
-        loader: 'babel-loader',
+        loader: 'react-hot!babel-loader',
         exclude: /node_modules/
     }]
  },  // Our Webpack Development Server config
@@ -29,6 +32,7 @@ module.exports = {
     inline: true,
     progress: true,
     historyApiFallback: true,
+    hot: true,
     stats: {
         // Config for minimal console.log mess.
         assets: false,
